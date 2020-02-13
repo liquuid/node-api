@@ -1,11 +1,19 @@
 const express = require('express');
 const mongoose = require('mongoose');
-
+const requireDir = require('require-dir');
 const app = express();
 
-mongoose.connect('mongodb://localhost:27017/nodeapi', { useNewUrlParser: true });
+mongoose.connect('mongodb://localhost:27017/nodeapi',{ useUnifiedTopology: true , useNewUrlParser: true });
+requireDir('./src/models');
+
+const Product = mongoose.model('Product');
 
 app.get('/', (req, res) => {
-    res.send("dufu");
+    Product.create({
+        title: 'React Native',
+        description: 'Build Native  Apps',
+        url: 'http://github.com/facebook/react-native'
+    });
+    return res.send("Hello");
 });
 app.listen(3001);
